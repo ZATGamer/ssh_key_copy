@@ -22,8 +22,9 @@ def read_key(pub_keys, new_keys):
 
 def get_keys():
     # Go to each host and generate a key
-    ssh_key_path = '/home/ec2-user/.ssh/id_rsa'
-    ssh_pubkey_path = '/home/ec2-user/.ssh/id_rsa.pub'
+    user = config.ssh['user']
+    ssh_key_path = '/home/{}/.ssh/id_rsa'.format(user)
+    ssh_pubkey_path = '/home/{}/.ssh/id_rsa.pub'.format(user)
     localpath = './remote_keys/id_rsa.pub'
     run("ssh-keygen -f {} -t rsa -N ''".format(ssh_key_path))
     # Copy pub keys here.
@@ -39,9 +40,15 @@ def generate_key_file(pub_keys):
 
 def copy_auth_keys_to_server():
     # Copy authorized_keys back out to the servers
-    remote_auth_key_location = '/home/ec2-user/.ssh/authorized_keys'
+    user = config.ssh['user']
+    remote_auth_key_location = '/home/{}/.ssh/authorized_keys'.format(user)
     put('./authorized_keys', remote_auth_key_location)
     run('chmod 600 {}'.format(remote_auth_key_location))
+
+
+def clean_up():
+    os.remove('./authorized_keys')
+    os.removedirs('./remote_keys')
 
 
 if __name__ == '__main__':
@@ -70,5 +77,6 @@ if __name__ == '__main__':
 
     execute(copy_auth_keys_to_server)
 
+    clean_up()
 
 
