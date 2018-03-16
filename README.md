@@ -2,6 +2,8 @@
 
 This is a Quick and dirty script to enable ssh between servers.
 
+NOTE: This script assumes no ssh keys have been generated on the remote servers.
+
 It will:
 
 - Read default_keys into a key_list.
