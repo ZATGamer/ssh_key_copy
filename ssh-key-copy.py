@@ -23,7 +23,7 @@ def get_keys():
     # Go to each host and generate a key
     ssh_key_path = '.ssh/idrsa'
     localpath = './remote_keys/'
-    run('echo -e "\n\n\n" | ssh-keygen -t rsa -f {}'.format(ssh_key_path))
+    open_shell('echo -e "\n\n\n" | ssh-keygen -t rsa -f {}'.format(ssh_key_path))
     # Copy pub keys here.
     get(ssh_key_path, localpath + "." + env.host)
 
