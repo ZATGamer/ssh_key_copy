@@ -2,6 +2,7 @@
 import csv
 import config
 from fabric.api import *
+import os
 
 
 def read_hosts(hosts):
@@ -56,6 +57,10 @@ if __name__ == '__main__':
     read_key(pub_keys, 'default_keys')
 
     execute(get_keys)
+
+    for file in os.listdir('remote_keys'):
+        read_key(pub_keys, file)
+
 
     generate_key_file(pub_keys)
 
