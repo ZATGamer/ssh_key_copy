@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     read_key(pub_keys, 'default_keys')
 
-    sudo(get_keys)
+    execute(get_keys)
 
     generate_key_file(pub_keys)
 
