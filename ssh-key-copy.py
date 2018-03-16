@@ -48,7 +48,9 @@ def copy_auth_keys_to_server():
 
 def clean_up():
     os.remove('./authorized_keys')
-    os.removedirs('./remote_keys')
+    for file in os.listdir('remote_keys'):
+        os.remove('./remote_keys/{}'.format(file))
+    os.rmdir('./remote_keys')
 
 
 if __name__ == '__main__':
