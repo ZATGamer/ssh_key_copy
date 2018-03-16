@@ -24,11 +24,11 @@ def get_keys():
     ssh_key_path = '.ssh/idrsa'
     localpath = './remote_keys/'
     run('echo -e "\n\n\n" | ssh-keygen -t rsa -f {}'.format(ssh_key_path))
+    # Copy pub keys here.
     get(ssh_key_path, localpath + "." + env.host)
 
 
-
-# Copy pub keys here and add them to the key's list
+# Add keys to key list
 
 
 def generate_key_file(pub_keys):
@@ -40,10 +40,6 @@ def generate_key_file(pub_keys):
 # Copy authorized_keys back out to the servers
 
 
-
-
-
-
 if __name__ == '__main__':
     hosts = []
     pub_keys = []
@@ -52,12 +48,10 @@ if __name__ == '__main__':
     env.key_filename = config.ssh['ssh_key']
     env.parallel = True
 
-
     read_hosts(hosts)
     env.hosts = hosts
-
-
 
     read_key(pub_keys, 'default_keys')
 
     generate_key_file(pub_keys)
+
