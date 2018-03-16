@@ -1,4 +1,5 @@
 #!/bin/python
+
 import csv
 import config
 from fabric.api import *
@@ -47,6 +48,7 @@ def copy_auth_keys_to_server():
 
 
 def clean_up():
+    # Clean up local drive
     os.remove('./authorized_keys')
     for file in os.listdir('remote_keys'):
         os.remove('./remote_keys/{}'.format(file))
@@ -54,19 +56,23 @@ def clean_up():
 
 
 if __name__ == '__main__':
+    # List defining
     hosts = []
     pub_keys = []
 
+    # Fabric config
     env.user = config.ssh['user']
     env.key_filename = config.ssh['ssh_key']
     env.parallel = True
 
     read_hosts(hosts)
     for host in hosts:
+        # read hosts from file into fabric hosts list
         env.hosts.append(host)
 
     read_key(pub_keys, 'default_keys')
 
+    # Fabric execution
     execute(get_keys)
 
     for file in os.listdir('remote_keys'):
@@ -74,9 +80,9 @@ if __name__ == '__main__':
         remote_key_local = './remote_keys/{}'.format(file)
         read_key(pub_keys, remote_key_local)
 
-
     generate_key_file(pub_keys)
 
+    # Fabric execution
     execute(copy_auth_keys_to_server)
 
     clean_up()
