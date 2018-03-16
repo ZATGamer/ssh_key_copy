@@ -59,7 +59,8 @@ if __name__ == '__main__':
     execute(get_keys)
 
     for file in os.listdir('remote_keys'):
-        read_key(pub_keys, file)
+        remote_key_local = './remote_keys/{}'.format(file)
+        read_key(pub_keys, remote_key_local)
 
 
     generate_key_file(pub_keys)
