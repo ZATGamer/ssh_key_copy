@@ -49,7 +49,8 @@ if __name__ == '__main__':
     env.parallel = True
 
     read_hosts(hosts)
-    env.hosts = hosts
+    for host in hosts:
+        env.hosts.append(host)
 
     read_key(pub_keys, 'default_keys')
 
