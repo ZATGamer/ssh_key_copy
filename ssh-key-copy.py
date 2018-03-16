@@ -22,10 +22,11 @@ def read_key(pub_keys, new_keys):
 def get_keys():
     # Go to each host and generate a key
     ssh_key_path = '/home/ec2-user/.ssh/id_rsa'
-    localpath = './remote_keys/id_rsa'
+    ssh_pubkey_path = '/home/ec2-user/.ssh/id_rsa.pub'
+    localpath = './remote_keys/id_rsa.pub'
     run("ssh-keygen -f {} -t rsa -N ''".format(ssh_key_path))
     # Copy pub keys here.
-    get(ssh_key_path, localpath + "." + env.host)
+    get(ssh_pubkey_path, localpath + "." + env.host)
 
 
 # Add keys to key list
