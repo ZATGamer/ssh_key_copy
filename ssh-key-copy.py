@@ -21,9 +21,9 @@ def read_key(pub_keys, new_keys):
 
 def get_keys():
     # Go to each host and generate a key
-    ssh_key_path = '.ssh/idrsa'
+    ssh_key_path = '.ssh/id_rsa'
     localpath = './remote_keys/'
-    open_shell('echo -e "\\n\\n\\n" | ssh-keygen -t rsa -f {}'.format(ssh_key_path))
+    run("ssh-keygen -f {} -t rsa -N ''".format(ssh_key_path))
     # Copy pub keys here.
     get(ssh_key_path, localpath + "." + env.host)
 
