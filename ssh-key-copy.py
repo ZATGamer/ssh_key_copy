@@ -30,16 +30,18 @@ def get_keys():
     get(ssh_pubkey_path, localpath + "." + env.host)
 
 
-# Add keys to key list
-
-
 def generate_key_file(pub_keys):
     # Generate the authorized_keys file
     with open('authorized_keys', 'w') as key_file:
         for key in pub_keys:
             key_file.write(key)
 
-# Copy authorized_keys back out to the servers
+
+def copy_auth_keys_to_server():
+    # Copy authorized_keys back out to the servers
+    remote_auth_key_location = '/home/ec2-user/.ssh/authorized_keys'
+    put('./authorized_keys', remote_auth_key_location)
+    run('chmod 600 {}'.format(remote_auth_key_location))
 
 
 if __name__ == '__main__':
@@ -59,9 +61,14 @@ if __name__ == '__main__':
     execute(get_keys)
 
     for file in os.listdir('remote_keys'):
+        # Add keys to key list
         remote_key_local = './remote_keys/{}'.format(file)
         read_key(pub_keys, remote_key_local)
 
 
     generate_key_file(pub_keys)
+
+    execute(copy_auth_keys_to_server)
+
+
 
